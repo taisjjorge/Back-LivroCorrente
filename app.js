@@ -13,18 +13,11 @@ const conexao = mysql.createConnection({        // Cria a conexão com o MYSQL
     database:'livro_corrente'                   // "livro_corrente" = banco de dados
 })
 
-
 app.get('/cards', function (req, res) {
     conexao.query("Select * from cards", function (error,results)  {        
         res.json(results)
     })
 })
-app.get('/cards', function (req, res) {
-    conexao.query("Select * from cards", function (error,results)  {        
-        res.json(results)
-    })
-})
-
 
 app.post('/inativos', function (req, res ) {
     let id = req.body
