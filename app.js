@@ -19,6 +19,26 @@ app.get('/cards', function (req, res) {
         res.json(results)
     })
 })
+app.get('/cards', function (req, res) {
+    conexao.query("Select * from cards", function (error,results)  {        
+        res.json(results)
+    })
+})
+
+
+app.post('/inativos', function (req, res ) {
+    let id = req.body
+    console.log(id)
+    //conexao.query(`Select * from cards WHERE id_biblioteca = ${id}`, function (error, results) {
+    //    res.json(results)
+    //})
+})
+
+app.get('/bibliotecas', function(req, res) {
+    conexao.query("Select * from bibliotecas", function (error, results) {
+        res.json(results)
+    })
+})
 
 const porta = 3001
 app.listen(porta, function (){
