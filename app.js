@@ -14,21 +14,20 @@ const conexao = mysql.createConnection({        // Cria a conexão com o MYSQL
 })
 
 app.get('/cards', function (req, res) {
-    conexao.query("Select * from cards", function (error,results)  {        
+    conexao.query("Select * from cards WHERE valido_pedido = 1", function (error,results)  {        
         res.json(results)
     })
 })
 
 app.post('/inativos', function (req, res ) {
-    let id = req.body
-    console.log(id)
-    //conexao.query(`Select * from cards WHERE id_biblioteca = ${id}`, function (error, results) {
-    //    res.json(results)
-    //})
+    let id = req.body.id
+    conexao.query(`Select * from cards WHERE id_biblioteca_fk = ${id}`, function (error, results) {
+        res.json(results)
+    })
 })
 
 app.get('/bibliotecas', function(req, res) {
-    conexao.query("Select * from bibliotecas", function (error, results) {
+    conexao.query("Select * from infoRB", function (error, results) {
         res.json(results)
     })
 })

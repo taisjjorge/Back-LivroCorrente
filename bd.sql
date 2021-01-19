@@ -105,8 +105,10 @@ create view cards as
 select * from pedidos
 inner join bibliotecas on id_biblioteca_fk=id_biblioteca;
 
-
-
+create view infoRB as
+Select * from rede_biblioteca
+inner join bibliotecas on id_biblioteca_fk = id_biblioteca
+inner join redes on id_rede_fk = id_rede;
 
 
 INSERT INTO redes(nome_rede, email_rede, estado_rede, cidade_rede) VALUES 
@@ -181,3 +183,10 @@ INSERT INTO rede_biblioteca(id_rede_fk,id_biblioteca_fk) VALUES
 (3,27),
 (3,28),
 (3,29);
+
+
+insert into pedidos(numeroExemplar_pedido, titulo_pedido, genero_pedido, id_biblioteca_fk) values
+(1,"Harry Potter", "Ficção", 16),
+(2,"Em Ritmo De Fuga", "Ação", 9),
+(3,"Toy Story", "Infantil", 25),
+(1,"A Fabrica de Chocolate", "Ficção", 23);
