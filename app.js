@@ -24,7 +24,7 @@ app.get('/cards', function(req, res) {
 
 app.post('/inativos', function(req, res) {
     let id = req.body.id
-    conexao.query(`select * from pedidos inner join bibliotecas on id_biblioteca_fk=id_biblioteca WHERE id_biblioteca_fk = ${id}`, function (error, results) {
+    conexao.query(`select * from pedidos inner join bibliotecas on id_biblioteca_fk=id_biblioteca WHERE id_biblioteca_fk = "${id}" and valido_pedido = 1`, function (error, results) {
         res.json(results)
     })
 })
@@ -37,7 +37,7 @@ app.get('/bibliotecas', function(req, res) {
 
 app.post('/formulario', function(req, res) {
     let id= req.body.id
-    conexao.query(`Select * from rede_biblioteca inner join bibliotecas on id_biblioteca_fk = id_biblioteca inner join redes on id_rede_fk = id_rede where id_rede = ${id}`, function (error, results) {
+    conexao.query(`Select * from rede_biblioteca inner join bibliotecas on id_biblioteca_fk = id_biblioteca inner join redes on id_rede_fk = id_rede where id_rede = "${id}"`, function (error, results) {
         res.json(results)
     })
 })
@@ -55,6 +55,17 @@ app.post('/cadastro/funcionario', function(req, res) {
             })
         } else {
             res.json({"resp":"Erro no cadastro funcionario"})
+        }
+    })
+})
+app.post('/remover/card', function (req, res) {
+    let titulo = req.body.titulo
+    console.log(titulo)
+    conexao.query(`UPDATE pedidos SET valido_pedido = 0 where titulo_pedido = "${titulo}"`, function(error,results){
+        if (error == null) {
+            res.json({"resp":"Foi"})
+        } else { 
+            res.json({"resp":"Não atualizou"})
         }
     })
 })
