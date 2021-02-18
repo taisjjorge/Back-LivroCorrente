@@ -51,13 +51,16 @@ app.post('/formulario', function(req, res) {
 })
 
 app.post('/cadastro/funcionario', async function(req, res){
-    let { user, senha, nome, celular, email, cpf, vinculo, biblio } = req.body.dados
+    console.log(req.body.dados)
+    let { user, senha, nome, celular, email, cpf, vinculo, biblio, titulo, genero, qtde, solicitacao } = req.body.dados
     let dados= req.body.dados
     console.log(dados)
 
     const hash = await bcrypt.hash(senha, 10)
     senha = hash
-
+    if(solicitacao){
+    conexao.query(`Insert into pedidos(numeroExemplar_pedido, titulo_pedido, genero_pedido, id_biblioteca_fk) value("${qtde}","${titulo}","${genero}","${biblio}")`)
+    }
     conexao.query(`Select * from funcionarios where email_funcionario = "${email}"`, (error, results) => {
         console.log(error)
         console.log(results)
@@ -120,10 +123,15 @@ app.post('/remover/card', autentica, function (req, res) {
     })
 })
 
-
-app.post('/autenticador', autentica, function(req, res){
-    console.log("Liberado")
-    res.json({"Mensagem": "Liberado"})
+app.post('/atualizar/card', autentica, function (req, res) {
+    const { numeroExemplar, titulo, id, genero } = req.body
+    conexao.query(`UPDATE pedidos Set numeroExemplar_pedido = "${numeroExemplar}", titulo_pedido= "${titulo}", genero_pedido= "${genero}" where id_pedido="${id}"`, (error, results)=>{
+        if (error == null) {
+            res.json({"Mensagem":"Foi"})
+        } else { 
+            res.json({"Mensagem":"Não atualizou"})
+        }
+    })
 })
 
 
