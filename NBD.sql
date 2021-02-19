@@ -186,4 +186,6 @@ INSERT INTO rede_biblioteca(id_rede_fk,id_biblioteca_fk) VALUES
 (3,29);
 
 
+
 insert into pedidos(numeroExemplar_pedido,titulo_pedido,genero_pedido,id_biblioteca_fk) values ("2","Livro Teste", "Genero Teste", "2");
+insert into funcionarios(usuario_funcionario, senha_funcionario, nome_funcionario, telefone_funcionario, email_funcionario, cpf_funcionario, atividade_funcionario, valido_funcionario, id_biblioteca_fk) value ("usuarioAdmin","senha123","nomeAdmin", "123456789123","email@admin","12345678912","Admin", "Aceito", "2");
