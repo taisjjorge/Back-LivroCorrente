@@ -37,14 +37,27 @@ app.post('/livros', autentica, function(req, res) {
     })
 })
 
+app.post('/funcionarios', autentica, function(req, res) {
+    conexao.query(`SELECT * FROM funcionarios where id_biblioteca_fk = "${req.dados.usuario.id_biblioteca_fk}"`, function(error, results){
+        if(error == null){
+            res.json(results)
+        }
+    })
+})
+app.post('/alterar/funcionario', autentica, function(req, res) {
+    const { id, estado } = req.body
+    conexao.query(`UPDATE funcionarios SET valido_funcionario = "${estado}" where id_funcionario = "${id}"`, function(error, results){
+        if(error == null){
+            res.json({"Mensagem":"Atualizou"})
+        }
+    })
+})
+
+
 app.post('/adiciona/livros', autentica, function(req,res) {
     const { numeroExemplar, titulo, genero, autor } = req.body
     const { id_funcionario, id_biblioteca_fk } = req.dados.usuario
-    console.log(req.body)
-    console.log(req.dados.usuario)
     conexao.query(`insert into pedidos(numeroExemplar_pedido, titulo_pedido, genero_pedido, autor_pedido, valido_pedido, id_biblioteca_fk, id_funcionario_fk) values ("${numeroExemplar}", "${titulo}", "${genero}", "${autor}", FALSE, ${id_biblioteca_fk}, ${id_funcionario})`, (error, results) => {
-        console.log(error)
-        console.log(results)
         if(error == null){
             res.json({"Mensagem": "Livro cadastrado"})
         }
@@ -72,7 +85,6 @@ app.post('/formulario', function(req, res) {
 
 
 app.post('/cadastro/funcionario', async function(req, res){
-    console.log(req.body.dados)
     let { user, senha, nome, celular, email, cpf, vinculo, biblio, titulo, genero, qtde, solicitacao } = req.body.dados
 
     const hash = await bcrypt.hash(senha, 10)
